@@ -1,4 +1,7 @@
+import java.util.Random;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Password {
 
@@ -30,9 +33,7 @@ public class Password {
                     break;    // 跳出switch语句
                 case 3:      // 如果用户选择3，执行以下代码块
                     System.out.println("请输入要判断强度的密码:");
-                    String passwordToCheck = scanner.nextLine();
-                    int strength = getPasswordStrength(passwordToCheck);   // 调用密码强度判断函数
-                    System.out.println("密码强度: " + strength);       // 打印密码强度
+                    String passwordToCheck = getPasswordStrength(scanner.nextLine()); // 调用密码强度判断函数
                     break;
                 case 4:     // 如果用户选择4，执行以下代码块
                     String generatedPassword = generatePassword();  // 调用生成密码函数
@@ -76,24 +77,68 @@ public class Password {
     }
 
     // 判断密码强度
-    private static int getPasswordStrength(String password) {
-        int length = password.length();// 获取密码的长度
-        if (length < 6) {// 如果密码长度小于6
-            return 1; // 返回强度弱
-        } else if (length < 10) {// 如果密码长度小于10
-            return 2; // 返回强度中
-        } else {
-            return 3; // 返回强度强
+    private static String getPasswordStrength(String password) {
+        int length =password.length();
+        boolean Digit = false;
+        boolean LowerCase = false;
+        boolean UpperCase = false;
+
+        for(int i=0;i<length;i++){
+            char ch=password.charAt(i);
+            if(Character.isDigit(ch)){
+                Digit=true;
+            }else if(Character.isLowerCase(ch)){
+                LowerCase=true;
+            }else if(Character.isUpperCase(ch)){
+                UpperCase=true;
+            }
         }
+
+        if (length < 8 || (Digit && !LowerCase && !UpperCase) || (!Digit && LowerCase && !UpperCase)) {
+            System.out.println("密码弱强度");
+        } else if (length >= 8 && (Digit || LowerCase || UpperCase)) {
+            System.out.println("密码中强度");
+        } else if (length >= 8 && Digit && LowerCase && UpperCase) {
+            System.out.println("密码高强度");
+        } else {
+            System.out.println("无法判断密码强度");
+        }
+        return password;
     }
 
     // 生成密码
     private static String generatePassword() {
+        System.out.print("请输入随机密码长度：");
+        Scanner scanner=new Scanner(System.in);
+        int passwordLength =scanner.nextInt();
         StringBuilder password = new StringBuilder();// 创建一个用于存储生成密码的StringBuilder对象
-        for (int i = 0; i < 8; i++) {// 循环生成8个字符的密码
-            char randomChar = (char) (Math.random() * 26 + 'a');// 生成随机小写字母
-            password.append(randomChar);// 将随机字符追加到生成密码中
+        Random random =new Random();
+        for(int i=0;i<passwordLength;i++){
+            int category =random.nextInt(3);
+            switch(category){
+                case 0:
+                password.append((char)(random.nextInt(10)+'0'));
+                break;
+                case 1:
+                password.append((char)(random.nextInt(26)+'a'));
+                break;
+                case 2:
+                password.append((char)(random.nextInt(26)+'A'));
+                break;
+            }
         }
+        String generatedPassword = shuffleString(password.toString());
         return password.toString();// 返回生成的密码
+    }
+
+    private static String shuffleString(String input){
+        char[] characters = input.toCharArray();
+        for(int i=0;i<characters.length;i++){
+            int randomIndex=(int) (Math.random()*characters.length);
+            char temp=characters[i];
+            characters[i] = characters[randomIndex];
+            characters[randomIndex] = temp;
+        }
+        return new String(characters);
     }
 }
