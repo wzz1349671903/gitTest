@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-
+阳晶修改了！
 public class Password {
 
     public static void main(String[] args) {
