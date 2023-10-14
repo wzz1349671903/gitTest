@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-修改了
+
 
 public class Password {
 
@@ -142,4 +142,5 @@ public class Password {
         }
         return new String(characters);
     }
+    //change something
 }
