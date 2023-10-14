@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-//最新代码10.14  time13.10
+
 public class Password {
 
     public static void main(String[] args) {
@@ -141,5 +141,4 @@ public class Password {
         }
         return new String(characters);
     }
-    //change something
 }
